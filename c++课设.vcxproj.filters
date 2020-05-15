@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\人员类">
+      <UniqueIdentifier>{6793dffc-a7eb-4692-8147-e79817c3679b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\时间类">
+      <UniqueIdentifier>{f7c6816f-f1cb-456e-9011-3c375b6ef13f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\登录">
+      <UniqueIdentifier>{960c1a06-abe2-4fe5-89d2-e69a788db6de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\记录">
+      <UniqueIdentifier>{6f48e6f6-be3e-492b-9dd9-6c99b713c48c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\menu">
+      <UniqueIdentifier>{85857c56-4d0a-47b4-b8c5-61e3ee614549}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\检测输入">
+      <UniqueIdentifier>{0c84c238-3290-496e-b55e-11429896a7bf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="c++课设.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Store.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Allperson.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="date.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Peosonin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Personout.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Tem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Patient.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Personlocal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="load.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Getmune.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Checkcin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Code.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Allperson.h">
+      <Filter>头文件\人员类</Filter>
+    </ClInclude>
+    <ClInclude Include="Patient.h">
+      <Filter>头文件\人员类</Filter>
+    </ClInclude>
+    <ClInclude Include="Peosonin.h">
+      <Filter>头文件\人员类</Filter>
+    </ClInclude>
+    <ClInclude Include="Personlocal.h">
+      <Filter>头文件\人员类</Filter>
+    </ClInclude>
+    <ClInclude Include="Personout.h">
+      <Filter>头文件\人员类</Filter>
+    </ClInclude>
+    <ClInclude Include="date.h">
+      <Filter>头文件\时间类</Filter>
+    </ClInclude>
+    <ClInclude Include="load.h">
+      <Filter>头文件\登录</Filter>
+    </ClInclude>
+    <ClInclude Include="Store.h">
+      <Filter>头文件\记录</Filter>
+    </ClInclude>
+    <ClInclude Include="Tem.h">
+      <Filter>头文件\记录</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>头文件\记录</Filter>
+    </ClInclude>
+    <ClInclude Include="Getmune.h">
+      <Filter>头文件\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Checkcin.h">
+      <Filter>头文件\检测输入</Filter>
+    </ClInclude>
+    <ClInclude Include="Code.h">
+      <Filter>头文件\记录</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
