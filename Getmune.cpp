@@ -1,7 +1,7 @@
 #include<iostream>
 #include<fstream>
-#include <graphics.h>
-#include <conio.h>
+#include "graphics.h"
+#include "conio.h"
 #include"windows.h"
 #include"date.h"
 #include "Getmune.h"
@@ -73,7 +73,7 @@ void mune::GetmuneExplain()
 	LOGFONT f;
 	gettextstyle(&f);						// 获取当前字体设置
 	_tcscpy_s(f.lfFaceName, _T("黑体"));		// 设置字体为“黑体”
-	RECT r = { 0, 0, 639, 479 };
+	int y = 0;//控制每行输出
 	fstream m("mune.txt", ios::in);
 	char ch[200];
 	if (!m) {
@@ -81,10 +81,13 @@ void mune::GetmuneExplain()
 		exit(0);
 	}
 	while (!m.eof()) {
+		RECT r = { 0, y, 639, 479 };
 		m.getline(ch, 200);
-		drawtext(_T(ch), &r, DT_WORDBREAK);
+		drawtext(_T(ch), &r, DT_WORDBREAK | DT_LEFT);
+		y = y + 20;
 	}
 	if (m.eof()) {
+		RECT r = { 0, y, 639, 479 };
 		drawtext(_T("按任意键退出..."), &r, DT_WORDBREAK| DT_SINGLELINE| DT_BOTTOM);
 	}
 	_getch();
@@ -112,6 +115,16 @@ void mune::GetmuneSearcho()
 	cout << "2. 按照人名查询" << endl;
 	cout << "3. 按照电话号码查询" << endl;
 	cout << "4. 按照目的地进行查询" << endl;
+}
+
+void mune::GetmuneSearchL()
+{
+	cout << endl;
+	cout << "***目前查询对象为本地人员***" << endl;
+	cout << "请选择查询类别：" << endl;
+	cout << "1. 按照人名查询" << endl;
+	cout << "2. 按照电话号码查询" << endl;
+	cout << "3. 按照登记码查询" << endl;
 }
 
 void mune::GetmuneStore()

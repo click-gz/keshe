@@ -3,8 +3,8 @@
 #include<string.h>
 #include<fstream>
 #include<windows.h>
-#include <graphics.h>
-#include <conio.h>
+#include "graphics.h"
+#include "conio.h"
 #include "load.h"
 #include"Checkcin.h"
 using namespace std;
@@ -50,7 +50,7 @@ int loadperson::check(char name[20],char pa[20])
 		}
 		else {
 			cleardevice();
-			loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+			loadimage(NULL, _T("bk.jpg"));
 			char s[50];
 			InputBox(s, 50, "抱歉，登录用户或密码错误！！\r 是否忘记密码?(y/n)");
 			char cc;
@@ -63,13 +63,14 @@ int loadperson::check(char name[20],char pa[20])
 					loadperson::changeload();
 					loadperson::saveloadperson();
 					cleardevice();
-					loadimage(NULL, _T("F:\\bk.jpg"));
+					loadimage(NULL, _T("bk.jpg"));
 					RECT r = { 0, 0, 299, 299 };
 					drawtext(_T("登录界面"), &r, DT_WORDBREAK | DT_CENTER);
 					RECT p = { 44, 22, 299, 299 };
 					drawtext(_T("用户名："), &p, DT_WORDBREAK);
 					RECT pp = { 44, 55, 299, 299 };
 					drawtext(_T("密码："), &pp, DT_WORDBREAK);
+					outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 					string str1, str2;
 					char c;
 					while ((c = _getch()) != '\r')  //如果没按回车，接收一个c
@@ -84,16 +85,18 @@ int loadperson::check(char name[20],char pa[20])
 						}
 						str2 = "用户名:" + str1;
 						cleardevice();
-						loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+						loadimage(NULL, _T("bk.jpg"));
 						RECT r = { 0, 0, 299, 299 };
 						drawtext(_T("登录界面"), &r, DT_WORDBREAK | DT_CENTER);
 						outtextxy(44, 22, str2.c_str());
 						RECT pp = { 44, 55, 299, 299 };
 						drawtext(_T("密码："), &pp, DT_WORDBREAK);
+						outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 					}
 					char ch;
 					string str3, str4;
 					drawtext(_T("密码："), &pp, DT_WORDBREAK);
+					outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 					while ((ch = _getch()) != '\r')  //如果没按回车，接收一个c
 					{  //getch()头文件 conio.h
 						str4 = "";
@@ -107,11 +110,12 @@ int loadperson::check(char name[20],char pa[20])
 						}
 						str4 = "密码：" + str3;
 						cleardevice();
-						loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+						loadimage(NULL, _T("bk.jpg"));
 						RECT r = { 0, 0, 299, 299 };
 						drawtext(_T("登录界面"), &r, DT_WORDBREAK | DT_CENTER);
 						outtextxy(44, 22, str2.c_str());
 						outtextxy(44, 55, str4.c_str());
+						outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 					}
 					strcpy_s(na, strlen(str1.c_str()) + 1, (char*)str1.c_str());
 					strcpy_s(ppa, strlen(str3.c_str()) + 1, (char*)str3.c_str());
@@ -135,13 +139,14 @@ int loadperson::check(char name[20],char pa[20])
 				sscanf_s(sss, "%c", &chhhh);
 				if (chhhh == 'y') {
 					cleardevice();
-					loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+					loadimage(NULL, _T("bk.jpg"));
 					RECT r = { 0, 0, 299, 299 };
 					drawtext(_T("登录界面"), &r, DT_WORDBREAK | DT_CENTER);
 					RECT p = { 44, 22, 299, 299 };
 					drawtext(_T("用户名："), &p, DT_WORDBREAK);
 					RECT pp = { 44, 55, 299, 299 };
 					drawtext(_T("密码："), &pp, DT_WORDBREAK);
+					outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 					string str1, str2;
 					char c;
 					while ((c = _getch()) != '\r')  //如果没按回车，接收一个c
@@ -157,16 +162,18 @@ int loadperson::check(char name[20],char pa[20])
 						}
 						str2 = "用户名:" + str1;
 						cleardevice();
-						loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+						loadimage(NULL, _T("bk.jpg"));
 						RECT r = { 0, 0, 299, 299 };
 						drawtext(_T("登录界面"), &r, DT_WORDBREAK | DT_CENTER);
 						outtextxy(44, 22, str2.c_str());
 						RECT pp = { 44, 55, 299, 299 };
 						drawtext(_T("密码："), &pp, DT_WORDBREAK);
+						outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 					}
 					char ch;
 					string str3, str4;
 					drawtext(_T("密码："), &pp, DT_WORDBREAK);
+					outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 					while ((ch = _getch()) != '\r')  //如果没按回车，接收一个c
 					{  //getch()头文件 conio.h
 						str4 = "";
@@ -180,11 +187,12 @@ int loadperson::check(char name[20],char pa[20])
 						}
 						str4 = "密码：" + str3;
 						cleardevice();
-						loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+						loadimage(NULL, _T("bk.jpg"));
 						RECT r = { 0, 0, 299, 299 };
 						drawtext(_T("登录界面"), &r, DT_WORDBREAK | DT_CENTER);
 						outtextxy(44, 22, str2.c_str());
 						outtextxy(44, 55, str4.c_str());
+						outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 					}
 					for (int j = 80;j < 151;j++) {
 						if (j == 90 || j == 105 || j == 120 || j == 135 || j == 150) {
@@ -233,13 +241,14 @@ void loadperson::changeload(int i)
 		gettextstyle(&f);						// 获取当前字体设置
 		_tcscpy_s(f.lfFaceName, _T("黑体"));		// 设置字体为“黑体”
 	}
-	loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+	loadimage(NULL, _T("bk.jpg"));
 	RECT r = { 0, 0, 299, 299 };
 	drawtext(_T("修改界面"), &r, DT_WORDBREAK | DT_CENTER);
 	RECT p = { 44, 22, 299, 299 };
 	drawtext(_T("修改后用户名："), &p, DT_WORDBREAK);
 	RECT pp = { 44, 55, 299, 299 };
 	drawtext(_T("修改后密码："), &pp, DT_WORDBREAK);
+	outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 	string str1, str2;
 	char c;
 	while ((c = _getch()) != '\r')  //如果没按回车，接收一个c
@@ -255,16 +264,18 @@ void loadperson::changeload(int i)
 		}
 		str2 = "修改后用户名：" + str1;
 		cleardevice();
-		loadimage(NULL, _T("F:\\bk.jpg"));
+		loadimage(NULL, _T("bk.jpg"));
 		RECT r = { 0, 0, 299, 299 };
 		drawtext(_T("修改界面"), &r, DT_WORDBREAK | DT_CENTER);
 		outtextxy(44, 22, str2.c_str());
 		RECT pp = { 44, 55, 299, 299 };
 		drawtext(_T("修改后密码："), &pp, DT_WORDBREAK);
+		outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 	}
 	char ch;
 	string str3, str4;
 	drawtext(_T("修改后密码："), &pp, DT_WORDBREAK);
+	outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 	while ((ch = _getch()) != '\r')  //如果没按回车，接收一个c
 	{  //getch()头文件 conio.h
 		str4 = "";
@@ -278,11 +289,12 @@ void loadperson::changeload(int i)
 		}
 		str4 = "修改后密码：" + str3;
 		cleardevice();
-		loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+		loadimage(NULL, _T("bk.jpg"));
 		RECT r = { 0, 0, 299, 299 };
 		drawtext(_T("修改界面"), &r, DT_WORDBREAK | DT_CENTER);
 		outtextxy(44, 22, str2.c_str());
 		outtextxy(44, 55, str4.c_str());
+		outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 	}
 	strcpy_s(exp.name , (char*)str1.c_str());
 	strcpy_s(exp.password, (char*)str3.c_str());
@@ -337,7 +349,7 @@ char* hashcheck(char p[20]){
 int loadperson::loadfirst(int i)
 {
 	initgraph(300, 300);
-	loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+	loadimage(NULL, _T("bk.jpg"));
 	setbkcolor(WHITE);// 设置背景色为白色
 	//cleardevice();// 用背景色清空屏幕
 	setcolor(BLACK);//设置字体颜色为黑色
@@ -351,6 +363,7 @@ int loadperson::loadfirst(int i)
 	drawtext(_T("用户名："), &p, DT_WORDBREAK);
 	RECT pp = { 44, 55, 299, 299 };
 	drawtext(_T("密码："), &pp, DT_WORDBREAK);
+	outtextxy(35,245, "友情提示--请确保英文输入法输入。");
 	string str1, str2;
 	char c;
 	while ((c = _getch()) != '\r')  //如果没按回车，接收一个c
@@ -366,12 +379,13 @@ int loadperson::loadfirst(int i)
 		}
 		str2 = "用户名:" + str1;
 		cleardevice();
-		loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+		loadimage(NULL, _T("bk.jpg"));
 		RECT r = { 0, 0, 299, 299 };
 		drawtext(_T("登录界面"), &r, DT_WORDBREAK | DT_CENTER);
 		outtextxy(44, 22, str2.c_str());
 		RECT pp = { 44, 55, 299, 299 };
 		drawtext(_T("密码："), &pp, DT_WORDBREAK);
+		outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 	}
 	char ch;
 	string str3, str4;
@@ -389,11 +403,12 @@ int loadperson::loadfirst(int i)
 		}
 		str4 = "密码：" + str3;
 		cleardevice();
-		loadimage(NULL, _T("F:\\c++\\c++课设\\bk.jpg"));
+		loadimage(NULL, _T("bk.jpg"));
 		RECT r = { 0, 0, 299, 299 };
 		drawtext(_T("登录界面"), &r, DT_WORDBREAK | DT_CENTER);
 		outtextxy(44, 22, str2.c_str());
 		outtextxy(44, 55, str4.c_str());
+		outtextxy(35, 245, "友情提示--请确保英文输入法输入。");
 	}
 	for (int j = 80;j < 151;j++) {
 		if (j == 90 || j == 105 || j == 120 || j == 135 || j == 150) {

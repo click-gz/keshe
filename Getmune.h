@@ -9,5 +9,6 @@ public:
 	void GetmuneExplain();
 	void GetmuneSearchi();
 	void GetmuneSearcho();
+	void GetmuneSearchL();
 	void GetmuneStore();
 };

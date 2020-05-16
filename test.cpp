@@ -17,7 +17,7 @@ void test::gettest()
 			if (ch == 'y') {
 				tp.result = ch;
 				cout << "您的核酸检测结果为阳性，是否正确？" << endl;
-				cout << "如若需要修改，请输入 1，若不需要请输入 2：" << endl;
+				cout << "如若需要修改请输入 1，若不需要请输入 2：" << endl;
 				cin >> i;
 				if (i == 1) {
 					continue;
@@ -36,7 +36,7 @@ void test::gettest()
 			else if (ch == 'n') {
 				tp.result = ch;
 				cout << "您的核酸检测结果为阴性，是否正确？" << endl;
-				cout << "如若需要修改，请输入 1，若不需要请输入 2：" << endl;
+				cout << "如若需要修改请输入 1，若不需要请输入 2：" << endl;
 				cin >> i;
 				if (i == 1) {
 					continue;
@@ -61,6 +61,7 @@ void test::gettest()
 		char l;
 		cin >> l;
 		if (l == 'y') {
+			system("cls");
 			continue;
 		}
 		else {

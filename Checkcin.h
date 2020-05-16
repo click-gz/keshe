@@ -5,7 +5,7 @@ public:
 	int Checkmainik();
 	int Checkmanager();
 	int Checkmanagerp();
-	int Checksearchi();
+	int Checksearchi(int ii=0);
 	char Checkchmain();
 	char Checkchsearch();
 	char CheckchStore();

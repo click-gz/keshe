@@ -30,6 +30,7 @@ void showlocal();
 void showtem(char n[10]);//显示体温(部分)
 void showalltem();//单独显示所有的体温记录
 void search();//查询功能
+void stop();
 void statistics();//统计功能
 
 int main() {
@@ -124,550 +125,811 @@ void search()
 	Checkcin ccin;
 	mune MUN;
 	char ch;
-	while (true) {
-		cout << "\t请选择要查询的对象:" << endl;
-		cout<<"外来人员(i)\t\t外出人员(o)" << endl;
-		ch=ccin.Checkchsearch();
-		if (ch == 'i') {
-			MUN.GetmuneSearchi();
-			while (true) {
-				int i=0;
-				cout << "请选择查询功能(1--4):" << endl;
-				i=ccin.Checksearchi();
-				system("cls");
-				if (i == 1) {
-					int j = 0, y, m, d;
-					cout << "请输入要查询的年月日，空格间隔" << endl;
-					cin >> y >> m >> d;
-					fstream in("personin.dat", ios::in | ios::binary);
-					struct allperson p;
-					if (!in) {
+	cout << "\t请选择要查询的对象:" << endl;
+	cout<<"外来人员(i)  外出人员(o)  本地人员(L)" << endl;
+	ch=ccin.Checkchsearch();
+	if (ch == 'i') {
+		MUN.GetmuneSearchi();
+		while (true) {
+			int i=0;
+			cout << "请选择查询功能(1--4):" << endl;
+			i=ccin.Checksearchi();
+			system("cls");
+			if (i == 1) {
+				int j = 0, y, m, d;
+				cout << "请输入要查询的年月日，空格间隔" << endl;
+				cin >> y >> m >> d;
+				fstream in("personin.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!in) {
+					fstream In("personin.dat", ios::out | ios::binary);
+					if (!In) {
 						cout << "读取personin.dat文件失败!!!" << endl;
 						exit(0);
 					}
-					in.read((char*)&p, sizeof(p));
-					while (!in.eof()) {
-						if (p.dat.year == y && p.dat.month == m && p.dat.day == d) {
-							cout << "-------------------" << endl;
-							cout << "姓名：" << p.name << endl;
-							cout << "性别：" << p.sex << endl;
-							cout << "年龄：" << p.age << endl;
-							cout << "电话号码：" << p.telephone << endl;
-							cout << "职务：" << p.work << endl;
-							cout << "来源地：" << p.place << endl;
-							if (p.outcheck == 'o') {
-								cout << "此人已外出" << endl;
-							}
-							cout << "是否查看此人的体温记录？(y/n)" << endl;
-							char cho = ccin.Checkchmain();
-							if (cho == 'y') {
-								system("cls");
-								showtem(p.name);
-							}
-							fstream file("Apersonin.txt", ios::in);
-							if (!file) {
-								cout << "打开Apersonin.txt文件失败！！！" << endl;
-								exit(0);
-							}
-							char ch[10];
-							file >> ch;
-							while (!file.eof()) {
-								if (strcmp(ch, p.name) == 0) {
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-									//设置红色
-									cout << "此人途径过重灾区！！！请注意！！！" << endl;
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
-								}
-								file >> ch;
-							}
-							file.close();
-							cout << "-------------------" << endl;
-							j++;
-						}
-						in.read((char*)&p, sizeof(p));
-						cout << "按任意键继续..." << endl;
-						char chh = getchar();
-						system("cls");
+					else {
+						cout << "暂无外来人员登记" << endl;
+						stop();
+						continue;
 					}
-					if (j == 0) {
-						cout << "查无此时间的进入人员信息。" << endl;
-					}
-					in.close();
-					cout << "按任意键继续..." << endl;
-					char chh = getchar();
-					system("cls");
 				}
-				else if (i == 2) {
-					int j = 0;
-					char nam[20];
-					cout << "请输入要查询的人名" << endl;
-					cin >> nam;
-					fstream in("personin.dat", ios::in | ios::binary);
-					struct allperson p;
-					if (!in) {
-						cout << "读取personin.dat文件失败!!!" << endl;
-						exit(0);
+				in.read((char*)&p, sizeof(p));
+				while (!in.eof()) {
+					if (p.dat.year == y && p.dat.month == m && p.dat.day == d) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						cout << "来源地：" << p.place << endl;
+						if (p.outcheck == 'o') {
+							cout << "此人已外出" << endl;
+						}
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						fstream file("Apersonin.txt", ios::in);
+						if (!file) {
+							cout << "打开Apersonin.txt文件失败！！！" << endl;
+							exit(0);
+						}
+						char ch[10];
+						file >> ch;
+						while (!file.eof()) {
+							if (strcmp(ch, p.name) == 0) {
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+								//设置红色
+								cout << "此人途径过重灾区！！！请注意！！！" << endl;
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+							}
+							file >> ch;
+						}
+						file.close();
+						cout << "-------------------" << endl;
+						j++;
 					}
 					in.read((char*)&p, sizeof(p));
-					while (!in.eof()) {
-						if (strcmp(nam, p.name) == 0) {
-							cout << "-------------------" << endl;
-							cout << "姓名：" << p.name << endl;
-							cout << "性别：" << p.sex << endl;
-							cout << "年龄：" << p.age << endl;
-							cout << "电话号码：" << p.telephone << endl;
-							cout << "职务：" << p.work << endl;
-							cout << "来源地：" << p.place << endl;
-							if (p.outcheck == 'o') {
-								cout << "此人已外出" << endl;
-							}
-							cout << "是否查看此人的体温记录？(y/n)" << endl;
-							char cho = ccin.Checkchmain();
-							if (cho == 'y') {
-								system("cls");
-								showtem(p.name);
-							}
-							fstream file("Apersonin.txt", ios::in);
-							if (!file) {
-								cout << "打开Apersonin.txt文件失败！！！" << endl;
-								exit(0);
-							}
-							char ch[10];
-							file >> ch;
-							while (!file.eof()) {
-								if (strcmp(ch, p.name) == 0) {
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-									//设置红色
-									cout << "此人途径过重灾区！！！请注意！！！" << endl;
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
-								}
-								file >> ch;
-							}
-							file.close();
-							cout << "-------------------" << endl;
-							j++;
-						}
-						in.read((char*)&p, sizeof(p));
-						cout << "按任意键继续..." << endl;
-						char chh = getchar();
-						system("cls");
-					}
-					if (j == 0) {
-						cout << "查无此时间的进入人员信息。" << endl;
-					}
-					in.close();
-					cout << "按任意键继续..." << endl;
-					char chh = getchar();
-					system("cls");
+					stop();
 				}
-				else if (i == 3) {
-					int j = 0;
-					char tel[20];
-					cout << "请输入要查询的目的地" << endl;
-					cin >> tel;
-					fstream in("personin.dat", ios::in | ios::binary);
-					struct allperson p;
-					if (!in) {
-						cout << "读取personin.dat文件失败!!!" << endl;
-						exit(0);
-					}
-					in.read((char*)&p, sizeof(p));
-					while (!in.eof()) {
-						if (strcmp(tel, p.telephone) == 0) {
-							cout << "-------------------" << endl;
-							cout << "姓名：" << p.name << endl;
-							cout << "性别：" << p.sex << endl;
-							cout << "年龄：" << p.age << endl;
-							cout << "电话号码：" << p.telephone << endl;
-							cout << "职务：" << p.work << endl;
-							cout << "来源地：" << p.place << endl;
-							if (p.outcheck == 'o') {
-								cout << "此人已外出" << endl;
-							}
-							cout << "是否查看此人的体温记录？(y/n)" << endl;
-							char cho = ccin.Checkchmain();
-							if (cho == 'y') {
-								system("cls");
-								showtem(p.name);
-							}
-							fstream file("Apersonin.txt", ios::in);
-							if (!file) {
-								cout << "打开Apersonin.txt文件失败！！！" << endl;
-								exit(0);
-							}
-							char ch[10];
-							file >> ch;
-							while (!file.eof()) {
-								if (strcmp(ch, p.name) == 0) {
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-									//设置红色
-									cout << "此人途径过重灾区！！！请注意！！！" << endl;
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
-								}
-								file >> ch;
-							}
-							file.close();
-							cout << "-------------------" << endl;
-							j++;
-						}
-						in.read((char*)&p, sizeof(p));
-						cout << "按任意键继续..." << endl;
-						char chh = getchar();
-						system("cls");
-					}
-					if (j == 0) {
-						cout << "查无此进入人员信息。" << endl;
-					}
-					in.close();
-					cout << "按任意键继续..." << endl;
-					char chh = getchar();
-					system("cls");
+				if (j == 0) {
+					cout << "查无此时间的进入人员信息。" << endl;
 				}
-				else if (i == 4) {
-					int j = 0;
-					char pla[20];
-					cout << "请输入要查询的来源地" << endl;
-					cin >> pla;
-					fstream in("personin.dat", ios::in | ios::binary);
-					struct allperson p;
-					if (!in) {
-						cout << "读取personin.dat文件失败!!!" << endl;
-						exit(0);
-					}
-					in.read((char*)&p, sizeof(p));
-					while (!in.eof()) {
-						if (strcmp(pla, p.place) == 0) {
-							cout << "-------------------" << endl;
-							cout << "姓名：" << p.name << endl;
-							cout << "性别：" << p.sex << endl;
-							cout << "年龄：" << p.age << endl;
-							cout << "电话号码：" << p.telephone << endl;
-							cout << "职务：" << p.work << endl;
-							cout << "来源地：" << p.place << endl;
-							if (p.outcheck == 'o') {
-								cout << "此人已外出" << endl;
-							}
-							cout << "是否查看此人的体温记录？(y/n)" << endl;
-							char cho = ccin.Checkchmain();
-							if (cho == 'y') {
-								system("cls");
-								showtem(p.name);
-							}
-							fstream file("Apersonin.txt", ios::in);
-							if (!file) {
-								cout << "打开Apersonin.txt文件失败！！！" << endl;
-								exit(0);
-							}
-							char ch[10];
-							file >> ch;
-							while (!file.eof()) {
-								if (strcmp(ch, p.name) == 0) {
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-									//设置红色
-									cout << "此人途径过重灾区！！！请注意！！！" << endl;
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
-								}
-								file >> ch;
-							}
-							file.close();
-							cout << "-------------------" << endl;
-							j++;
-						}
-						in.read((char*)&p, sizeof(p));
-						cout << "按任意键继续..." << endl;
-						char chh = getchar();
-						system("cls");
-					}
-					if (j == 0) {
-						cout << "查无此进入人员信息。" << endl;
-					}
-					in.close();
-					cout << "按任意键继续..." << endl;
-					char chh = getchar();
-					system("cls");
-				}
-				break;
+				in.close();
+				stop();
 			}
-		}
-		else{
-			MUN.GetmuneSearcho();
-			int i ;
-			while (true) {
-				cout << "请选择查询功能(1--4):" << endl;
-				i = ccin.Checksearchi();
-				system("cls");
-				system("mode con cols=40 lines=30  ");
-				if (i == 1) {
-					int j = 0, y, m, d;
-					cout << "请输入要查询的年月日，空格间隔" << endl;
-					cin >> y >> m >> d;
-					fstream out("personout.dat", ios::in | ios::binary);
-					struct allperson p;
-					if (!out) {
-						cout << "读取personout.dat文件失败!!!" << endl;
+			else if (i == 2) {
+				int j = 0;
+				char nam[20];
+				cout << "请输入要查询的人名" << endl;
+				cin >> nam;
+				fstream in("personin.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!in) {
+					fstream In("personin.dat", ios::out | ios::binary);
+					if (!In) {
+						cout << "读取personin.dat文件失败!!!" << endl;
 						exit(0);
 					}
-					out.read((char*)&p, sizeof(p));
-					while (!out.eof()) {
-						if (p.dat.year == y && p.dat.month == m && p.dat.day == d) {
-							cout << "-------------------" << endl;
-							cout << "姓名：" << p.name << endl;
-							cout << "性别：" << p.sex << endl;
-							cout << "年龄：" << p.age << endl;
-							cout << "电话号码：" << p.telephone << endl;
-							cout << "职务：" << p.work << endl;
-							cout << "目的地：" << p.place << endl;
-							cout << "外出原因：" << p.reason << endl;
-							cout << "外出时间：" << p.dat.year << "-" << p.dat.month << "-" << p.dat.day << endl;
-							if (p.outcheck == 'i') {
-								cout << "此人已返回" << endl;
-							}
-							cout << "是否查看此人的体温记录？(y/n)" << endl;
-							char cho = ccin.Checkchmain();
-							if (cho == 'y') {
-								system("cls");
-								showtem(p.name);
-							}
-							fstream file("Apersonout.txt", ios::in);
-							if (!file) {
-								cout << "打开Apersonout.txt文件失败！！！" << endl;
-								exit(0);
-							}
-							char ch[10];
-							file >> ch;
-							while (!file.eof()) {
-								if (strcmp(ch, p.name) == 0) {
-									if (j > 0) {
-										cout << "按任意键继续..." << endl;
-										cin.ignore();
-										char chh = getchar();
-										system("cls");
-									}
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-									//设置红色
-									cout << "此人途径过重灾区！！！请注意！！！" << endl;
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
-								}
-								file >> ch;
-							}
-							file.close();
-							cout << "-------------------" << endl;
-							j++;
-						}
-						out.read((char*)&p, sizeof(p));
-						cout << "按任意键继续..." << endl;
-						char chh = getchar();
-						system("cls");
+					else {
+						cout << "暂无外来人员登记" << endl;
+						stop();
+						continue;
 					}
-					if (j == 0) {
-						cout << "查无此时间的外出人员信息。" << endl;
-					}
-					out.close();
-					cout << "按任意键继续..." << endl;
-					cin.ignore();
-					char chh = getchar();
-					system("cls");
 				}
-				else if (i == 2) {
-					int j = 0;
-					char nam[20];
-					cout << "请输入要查询的人名" << endl;
-					cin >> nam;
-					fstream out("personout.dat", ios::in | ios::binary);
-					struct allperson p;
-					if (!out) {
-						cout << "读取personout.dat文件失败!!!" << endl;
-						exit(0);
-					}
-					out.read((char*)&p, sizeof(p));
-					while (!out.eof()) {
-						if (strcmp(nam, p.name) == 0) {
-							cout << "-------------------" << endl;
-							cout << "姓名：" << p.name << endl;
-							cout << "性别：" << p.sex << endl;
-							cout << "年龄：" << p.age << endl;
-							cout << "电话号码：" << p.telephone << endl;
-							cout << "职务：" << p.work << endl;
-							cout << "目的地：" << p.place << endl;
-							cout << "外出原因：" << p.reason << endl;
-							cout << "外出时间：" << p.dat.year << "-" << p.dat.month << "-" << p.dat.day << endl;
-							if (p.outcheck == 'i') {
-								cout << "此人已返回" << endl;
-							}
-							cout << "是否查看此人的体温记录？(y/n)" << endl;
-							char cho = ccin.Checkchmain();
-							if (cho == 'y') {
-								system("cls");
-								showtem(p.name);
-							}
-							fstream file("Apersonout.txt", ios::in);
-							if (!file) {
-								cout << "打开Apersonout.txt文件失败！！！" << endl;
-								exit(0);
-							}
-							char ch[10];
-							file >> ch;
-							while (!file.eof()) {
-								if (strcmp(ch, p.name) == 0) {
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-									//设置红色
-									cout << "此人途径过重灾区！！！请注意！！！" << endl;
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
-								}
-								file >> ch;
-							}
-							file.close();
-							cout << "-------------------" << endl;
-							j++;
+				in.read((char*)&p, sizeof(p));
+				while (!in.eof()) {
+					if (strcmp(nam, p.name) == 0) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						cout << "来源地：" << p.place << endl;
+						if (p.outcheck == 'o') {
+							cout << "此人已外出" << endl;
 						}
-						out.read((char*)&p, sizeof(p));
-						cout << "按任意键继续..." << endl;
-						char chh = getchar();
-						system("cls");
-					}
-					if (j == 0) {
-						cout << "查无此外出人员信息。" << endl;
-					}
-					out.close();
-					cout << "按任意键继续..." << endl;
-					char chh = getchar();
-					system("cls");
-				}
-				else if (i == 3) {
-					int j = 0;
-					char tel[20];
-					cout << "请输入要查询的电话号码" << endl;
-					cin >> tel;
-					fstream out("personout.dat", ios::in | ios::binary);
-					struct allperson p;
-					if (!out) {
-						cout << "读取personout.dat文件失败!!!" << endl;
-						exit(0);
-					}
-					out.read((char*)&p, sizeof(p));
-					while (!out.eof()) {
-						if (strcmp(tel, p.telephone) == 0) {
-							cout << "-------------------" << endl;
-							cout << "姓名：" << p.name << endl;
-							cout << "性别：" << p.sex << endl;
-							cout << "年龄：" << p.age << endl;
-							cout << "电话号码：" << p.telephone << endl;
-							cout << "职务：" << p.work << endl;
-							cout << "目的地：" << p.place << endl;
-							cout << "外出原因：" << p.reason << endl;
-							cout << "外出时间：" << p.dat.year << "-" << p.dat.month << "-" << p.dat.day << endl;
-							if (p.outcheck == 'i') {
-								cout << "此人已返回" << endl;
-							}
-							cout << "是否查看此人的体温记录？(y/n)" << endl;
-							char cho = ccin.Checkchmain();
-							if (cho == 'y') {
-								system("cls");
-								showtem(p.name);
-							}
-							fstream file("Apersonout.txt", ios::in);
-							if (!file) {
-								cout << "打开Apersonout.txt文件失败！！！" << endl;
-								exit(0);
-							}
-							char ch[10];
-							file >> ch;
-							while (!file.eof()) {
-								if (strcmp(ch, p.name) == 0) {
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-									//设置红色
-									cout << "此人途径过重灾区！！！请注意！！！" << endl;
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
-								}
-								file >> ch;
-							}
-							file.close();
-							cout << "-------------------" << endl;
-							j++;
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
 						}
-						out.read((char*)&p, sizeof(p));
-						cout << "按任意键继续..." << endl;
-						char chh = getchar();
-						system("cls");
-					}
-					if (j == 0) {
-						cout << "查无此外出人员信息。" << endl;
-					}
-					out.close();
-					cout << "按任意键继续..." << endl;
-					char chh = getchar();
-					system("cls");
-				}
-				else if (i == 4) {
-					int j = 0;
-					char pla[20];
-					cout << "请输入要查询的目的地，空格间隔" << endl;
-					cin >> pla;
-					fstream out("personout.dat", ios::in | ios::binary);
-					struct allperson p;
-					if (!out) {
-						cout << "读取personout.dat文件失败!!!" << endl;
-						exit(0);
-					}
-					out.read((char*)&p, sizeof(p));
-					while (!out.eof()) {
-						if (strcmp(pla, p.place) == 0) {
-							cout << "-------------------" << endl;
-							cout << "姓名：" << p.name << endl;
-							cout << "性别：" << p.sex << endl;
-							cout << "年龄：" << p.age << endl;
-							cout << "电话号码：" << p.telephone << endl;
-							cout << "职务：" << p.work << endl;
-							cout << "目的地：" << p.place << endl;
-							cout << "外出原因：" << p.reason << endl;
-							cout << "外出时间：" << p.dat.year << "-" << p.dat.month << "-" << p.dat.day << endl;
-							if (p.outcheck == 'i') {
-								cout << "此人已返回" << endl;
-							}
-							cout << "是否查看此人的体温记录？(y/n)" << endl;
-							char cho = ccin.Checkchmain();
-							if (cho == 'y') {
-								system("cls");
-								showtem(p.name);
-							}
-							fstream file("Apersonout.txt", ios::in);
-							if (!file) {
-								cout << "打开Apersonout.txt文件失败！！！" << endl;
-								exit(0);
-							}
-							char ch[10];
-							file >> ch;
-							while (!file.eof()) {
-								if (strcmp(ch, p.name) == 0) {
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-									//设置红色
-									cout << "此人途径过重灾区！！！请注意！！！" << endl;
-									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
-								}
-								file >> ch;
-							}
-							file.close();
-							cout << "-------------------" << endl;
-							j++;
+						fstream file("Apersonin.txt", ios::in);
+						if (!file) {
+							cout << "打开Apersonin.txt文件失败！！！" << endl;
+							exit(0);
 						}
-						out.read((char*)&p, sizeof(p));
-						cout << "按任意键继续..." << endl;
-						char chh = getchar();
-						system("cls");
+						char ch[10];
+						file >> ch;
+						while (!file.eof()) {
+							if (strcmp(ch, p.name) == 0) {
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+								//设置红色
+								cout << "此人途径过重灾区！！！请注意！！！" << endl;
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+							}
+							file >> ch;
+						}
+						file.close();
+						cout << "-------------------" << endl;
+						j++;
 					}
-					if (j == 0) {
-						cout << "查无此外出人员信息。" << endl;
-					}
-					out.close();
-					cout << "按任意键继续..." << endl;
-					char chh = getchar();
-					system("cls");
+					in.read((char*)&p, sizeof(p));
+					stop();
 				}
-				break;
+				if (j == 0) {
+					cout << "查无此时间的进入人员信息。" << endl;
+				}
+				in.close();
+				stop();
 			}
+			else if (i == 3) {
+				int j = 0;
+				char tel[20];
+				cout << "请输入要查询的目的地" << endl;
+				cin >> tel;
+				fstream in("personin.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!in) {
+					fstream In("personin.dat", ios::out | ios::binary);
+					if (!In) {
+						cout << "读取personin.dat文件失败!!!" << endl;
+						exit(0);
+					}
+					else {
+						cout << "暂无外来人员登记" << endl;
+						stop();
+						continue;
+					}
+				}
+				in.read((char*)&p, sizeof(p));
+				while (!in.eof()) {
+					if (strcmp(tel, p.telephone) == 0) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						cout << "来源地：" << p.place << endl;
+						if (p.outcheck == 'o') {
+							cout << "此人已外出" << endl;
+						}
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						fstream file("Apersonin.txt", ios::in);
+						if (!file) {
+							cout << "打开Apersonin.txt文件失败！！！" << endl;
+							exit(0);
+						}
+						char ch[10];
+						file >> ch;
+						while (!file.eof()) {
+							if (strcmp(ch, p.name) == 0) {
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+								//设置红色
+								cout << "此人途径过重灾区！！！请注意！！！" << endl;
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+							}
+							file >> ch;
+						}
+						file.close();
+						cout << "-------------------" << endl;
+						j++;
+					}
+					in.read((char*)&p, sizeof(p));
+					stop();
+				}
+				if (j == 0) {
+					cout << "查无此进入人员信息。" << endl;
+				}
+				in.close();
+				cout << "按任意键继续..." << endl;
+				char chh = getchar();
+				system("cls");
+			}
+			else if (i == 4) {
+				int j = 0;
+				char pla[20];
+				cout << "请输入要查询的来源地" << endl;
+				cin >> pla;
+				fstream in("personin.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!in) {
+					fstream In("personin.dat", ios::out | ios::binary);
+					if (!In) {
+						cout << "读取personin.dat文件失败!!!" << endl;
+						exit(0);
+					}
+					else {
+						cout << "暂无外来人员登记" << endl;
+						continue;
+					}
+				}
+				in.read((char*)&p, sizeof(p));
+				while (!in.eof()) {
+					if (strcmp(pla, p.place) == 0) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						cout << "来源地：" << p.place << endl;
+						if (p.outcheck == 'o') {
+							cout << "此人已外出" << endl;
+						}
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						fstream file("Apersonin.txt", ios::in);
+						if (!file) {
+							cout << "打开Apersonin.txt文件失败！！！" << endl;
+							exit(0);
+						}
+						char ch[10];
+						file >> ch;
+						while (!file.eof()) {
+							if (strcmp(ch, p.name) == 0) {
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+								//设置红色
+								cout << "此人途径过重灾区！！！请注意！！！" << endl;
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+							}
+							file >> ch;
+						}
+						file.close();
+						cout << "-------------------" << endl;
+						j++;
+					}
+					in.read((char*)&p, sizeof(p));
+					stop();
+				}
+				if (j == 0) {
+					cout << "查无此进入人员信息。" << endl;
+				}
+				in.close();
+				stop();
+			}
+			break;
 		}
-		break;
 	}
+	else if(ch=='o'){
+		MUN.GetmuneSearcho();
+		int i ;
+		while (true) {
+			cout << "请选择查询功能(1--4):" << endl;
+			i = ccin.Checksearchi();
+			system("cls");
+			system("mode con cols=40 lines=30  ");
+			if (i == 1) {
+				int j = 0, y, m, d;
+				cout << "请输入要查询的年月日，空格间隔" << endl;
+				cin >> y >> m >> d;
+				fstream out("personout.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!out) {
+					fstream Out("personout.dat", ios::out | ios::binary);
+					if (!Out) {
+						cout << "读取personout.dat文件失败!!!" << endl;
+						exit(0);
+					}
+					else {
+						cout << "暂无外出人员登记" << endl;
+						stop();
+						continue;
+					}
+				}
+				out.read((char*)&p, sizeof(p));
+				while (!out.eof()) {
+					if (p.dat.year == y && p.dat.month == m && p.dat.day == d) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						cout << "目的地：" << p.place << endl;
+						cout << "外出原因：" << p.reason << endl;
+						cout << "外出时间：" << p.dat.year << "-" << p.dat.month << "-" << p.dat.day << endl;
+						if (p.outcheck == 'i') {
+							cout << "此人已返回" << endl;
+						}
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						fstream file("Apersonout.txt", ios::in);
+						if (!file) {
+							cout << "打开Apersonout.txt文件失败！！！" << endl;
+							exit(0);
+						}
+						char ch[10];
+						file >> ch;
+						while (!file.eof()) {
+							if (strcmp(ch, p.name) == 0) {
+								if (j > 0) {
+									cout << "按任意键继续..." << endl;
+									cin.ignore();
+									char chh = getchar();
+									system("cls");
+								}
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+								//设置红色
+								cout << "此人途径过重灾区！！！请注意！！！" << endl;
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+							}
+							file >> ch;
+						}
+						file.close();
+						cout << "-------------------" << endl;
+						j++;
+					}
+					out.read((char*)&p, sizeof(p));
+					stop();
+				}
+				if (j == 0) {
+					cout << "查无此时间的外出人员信息。" << endl;
+				}
+				out.close();
+				stop();
+			}
+			else if (i == 2) {
+				int j = 0;
+				char nam[20];
+				cout << "请输入要查询的人名" << endl;
+				cin >> nam;
+				fstream out("personout.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!out) {
+					fstream Out("personout.dat", ios::out | ios::binary);
+					if (!Out) {
+						cout << "读取personout.dat文件失败!!!" << endl;
+						exit(0);
+					}
+					else {
+						cout << "暂无外出人员登记" << endl;
+						stop();
+						continue;
+					}
+				}
+				out.read((char*)&p, sizeof(p));
+				while (!out.eof()) {
+					if (strcmp(nam, p.name) == 0) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						cout << "目的地：" << p.place << endl;
+						cout << "外出原因：" << p.reason << endl;
+						cout << "外出时间：" << p.dat.year << "-" << p.dat.month << "-" << p.dat.day << endl;
+						if (p.outcheck == 'i') {
+							cout << "此人已返回" << endl;
+						}
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						fstream file("Apersonout.txt", ios::in);
+						if (!file) {
+							cout << "打开Apersonout.txt文件失败！！！" << endl;
+							exit(0);
+						}
+						char ch[10];
+						file >> ch;
+						while (!file.eof()) {
+							if (strcmp(ch, p.name) == 0) {
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+								//设置红色
+								cout << "此人途径过重灾区！！！请注意！！！" << endl;
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+							}
+							file >> ch;
+						}
+						file.close();
+						cout << "-------------------" << endl;
+						j++;
+					}
+					out.read((char*)&p, sizeof(p));
+					stop();
+				}
+				if (j == 0) {
+					cout << "查无此外出人员信息。" << endl;
+				}
+				out.close();
+				stop();
+			}
+			else if (i == 3) {
+				int j = 0;
+				char tel[20];
+				cout << "请输入要查询的电话号码" << endl;
+				cin >> tel;
+				fstream out("personout.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!out) {
+					fstream Out("personout.dat", ios::out | ios::binary);
+					if (!Out) {
+						fstream Out("personout.dat", ios::out | ios::binary);
+						if (!Out) {
+							cout << "读取personout.dat文件失败!!!" << endl;
+							exit(0);
+						}
+						else {
+							cout << "暂无外出人员登记" << endl;
+							stop();
+							continue;
+						}
+					}
+					else {
+						cout << "暂无外出人员登记" << endl;
+						continue;
+					}
+				}
+				out.read((char*)&p, sizeof(p));
+				while (!out.eof()) {
+					if (strcmp(tel, p.telephone) == 0) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						cout << "目的地：" << p.place << endl;
+						cout << "外出原因：" << p.reason << endl;
+						cout << "外出时间：" << p.dat.year << "-" << p.dat.month << "-" << p.dat.day << endl;
+						if (p.outcheck == 'i') {
+							cout << "此人已返回" << endl;
+						}
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						fstream file("Apersonout.txt", ios::in);
+						if (!file) {
+							cout << "打开Apersonout.txt文件失败！！！" << endl;
+							exit(0);
+						}
+						char ch[10];
+						file >> ch;
+						while (!file.eof()) {
+							if (strcmp(ch, p.name) == 0) {
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+								//设置红色
+								cout << "此人途径过重灾区！！！请注意！！！" << endl;
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+							}
+							file >> ch;
+						}
+						file.close();
+						cout << "-------------------" << endl;
+						j++;
+					}
+					out.read((char*)&p, sizeof(p));
+					stop();
+				}
+				if (j == 0) {
+					cout << "查无此外出人员信息。" << endl;
+				}
+				out.close();
+				stop();
+			}
+			else if (i == 4) {
+				int j = 0;
+				char pla[20];
+				cout << "请输入要查询的目的地，空格间隔" << endl;
+				cin >> pla;
+				fstream out("personout.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!out) {
+					fstream Out("personout.dat", ios::out | ios::binary);
+					if (!Out) {
+						cout << "读取personout.dat文件失败!!!" << endl;
+						exit(0);
+					}
+					else {
+						cout << "暂无外出人员登记" << endl;
+						stop();
+						continue;
+					}
+				}
+				out.read((char*)&p, sizeof(p));
+				while (!out.eof()) {
+					if (strcmp(pla, p.place) == 0) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						cout << "目的地：" << p.place << endl;
+						cout << "外出原因：" << p.reason << endl;
+						cout << "外出时间：" << p.dat.year << "-" << p.dat.month << "-" << p.dat.day << endl;
+						if (p.outcheck == 'i') {
+							cout << "此人已返回" << endl;
+						}
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						fstream file("Apersonout.txt", ios::in);
+						if (!file) {
+							cout << "打开Apersonout.txt文件失败！！！" << endl;
+							exit(0);
+						}
+						char ch[10];
+						file >> ch;
+						while (!file.eof()) {
+							if (strcmp(ch, p.name) == 0) {
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+								//设置红色
+								cout << "此人途径过重灾区！！！请注意！！！" << endl;
+								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+							}
+							file >> ch;
+						}
+						file.close();
+						cout << "-------------------" << endl;
+						j++;
+					}
+					out.read((char*)&p, sizeof(p));
+					stop();
+				}
+				if (j == 0) {
+					cout << "查无此外出人员信息。" << endl;
+				}
+				out.close();
+				stop();
+			}
+			break;
+		}
+	}
+	else {
+		MUN.GetmuneSearchL();
+		int i;
+		while (true) {
+			cout << "请选择查询功能(1--3):" << endl;
+			i = ccin.Checksearchi(1);
+			system("cls");
+			system("mode con cols=40 lines=30  ");
+			if (i == 1) {
+				int j = 0;
+				char nam[20];
+				cout << "请输入要查询的人名" << endl;
+				cin >> nam;
+				fstream loCal("Personlocal.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!loCal) {
+					fstream Local("Personlocal.dat", ios::out | ios::binary);
+					if (!Local) {
+						cout << "读取Personlocal.dat文件失败!!!" << endl;
+						exit(0);
+					}
+					else {
+						cout << "暂无本地人员登记" << endl;
+						cin.ignore();
+						stop();
+						continue;
+					}
+				}
+				loCal.read((char*)&p, sizeof(p));
+				while (!loCal.eof()) {
+					if (strcmp(nam, p.name) == 0) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						if (p.outcheck == 'o') {
+							cout << "此人已外出" << endl;
+							fstream file("Apersonout.txt", ios::in);
+							if (!file) {
+								cout << "打开Apersonout.txt文件失败！！！" << endl;
+								exit(0);
+							}
+							char ch[10];
+							file >> ch;
+							while (!file.eof()) {
+								if (strcmp(ch, p.name) == 0) {
+									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+									//设置红色
+									cout << "此人途径过重灾区！！！请注意！！！" << endl;
+									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+									break;
+								}
+								file >> ch;
+							}
+							file.close();
+						}
+						cout << "-------------------" << endl;
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						j++;
+					}
+					loCal.read((char*)&p, sizeof(p));
+					stop();
+				}
+				if (j == 0) {
+					cout << "查无此人员信息。" << endl;
+				}
+				loCal.close();
+				cin.ignore();
+				stop();
+			}
+			else if (i == 2) {
+				int j = 0;
+				char tel[20];
+				cout << "请输入要查询的电话号码" << endl;
+				cin >> tel;
+				fstream loCal("Personoutlocal.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!loCal) {
+					fstream Local("Personlocal.dat", ios::out | ios::binary);
+					if (!Local) {
+						cout << "读取Personlocal.dat文件失败!!!" << endl;
+						exit(0);
+					}
+					else {
+						cout << "暂无本地人员登记" << endl;
+						cin.ignore();
+						stop();
+						continue;
+					}
+				}
+				loCal.read((char*)&p, sizeof(p));
+				while (!loCal.eof()) {
+					if (strcmp(tel, p.telephone) == 0) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						if (p.outcheck == 'o') {
+							cout << "此人已外出" << endl;
+							fstream file("Apersonout.txt", ios::in);
+							if (!file) {
+								cout << "打开Apersonout.txt文件失败！！！" << endl;
+								exit(0);
+							}
+							char ch[10];
+							file >> ch;
+							while (!file.eof()) {
+								if (strcmp(ch, p.name) == 0) {
+									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+									//设置红色
+									cout << "此人途径过重灾区！！！请注意！！！" << endl;
+									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+									break;
+								}
+								file >> ch;
+							}
+							file.close();
+						}
+						cout << "-------------------" << endl;
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						j++;
+					}
+					loCal.read((char*)&p, sizeof(p));
+					stop();
+				}
+				if (j == 0) {
+					cout << "查无此人员信息。" << endl;
+				}
+				loCal.close();
+				cin.ignore();
+				stop();
+			}
+			else if (i == 3) {
+				int j = 0;
+				char pla[20];
+				cout << "请输入登记码：" << endl;
+				cin >> pla;
+				fstream loCal("Personlocal.dat", ios::in | ios::binary);
+				struct allperson p;
+				if (!loCal) {
+					fstream Local("Personlocal.dat", ios::out | ios::binary);
+					if (!Local) {
+						cout << "读取Personlocal.dat文件失败!!!" << endl;
+						exit(0);
+					}
+					else {
+						cout << "暂无本地人员登记" << endl;
+						cin.ignore();
+						stop();
+						continue;
+					}
+				}
+				loCal.read((char*)&p, sizeof(p));
+				while (!loCal.eof()) {
+					if (strcmp(pla, p.place) == 0) {
+						cout << "-------------------" << endl;
+						cout << "姓名：" << p.name << endl;
+						cout << "性别：" << p.sex << endl;
+						cout << "年龄：" << p.age << endl;
+						cout << "电话号码：" << p.telephone << endl;
+						cout << "职务：" << p.work << endl;
+						if (p.outcheck == 'o') {
+							cout << "此人已外出" << endl;
+							fstream file("Apersonout.txt", ios::in);
+							if (!file) {
+								cout << "打开Apersonout.txt文件失败！！！" << endl;
+								exit(0);
+							}
+							char ch[10];
+							file >> ch;
+							while (!file.eof()) {
+								if (strcmp(ch, p.name) == 0) {
+									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+									//设置红色
+									cout << "此人途径过重灾区！！！请注意！！！" << endl;
+									SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);//恢复原色
+									break;
+								}
+								file >> ch;
+							}
+							file.close();
+						}
+						cout << "-------------------" << endl;
+						cout << "是否查看此人的体温记录？(y/n)" << endl;
+						char cho = ccin.Checkchmain();
+						if (cho == 'y') {
+							system("cls");
+							showtem(p.name);
+						}
+						j++;
+					}
+					loCal.read((char*)&p, sizeof(p));
+					stop();
+				}
+				if (j == 0) {
+					cout << "查无此人员信息。" << endl;
+				}
+				loCal.close();
+				cin.ignore();
+				stop();
+			}
+			break;
+		}
+	}
+}
+void stop()
+{
+	cout << "按任意键继续..." << endl;
+	char chh;
+	chh=getchar();
+	system("cls");
 }
 void statistics()
 {
@@ -749,9 +1011,7 @@ void statistics()
 		cout << "其中本地人员占体温不正常总人数的比例为：";
 		cout << setprecision(4) << 100 - (i / j) * 100 << "%" << endl;
 	}
-	cout << "按任意键继续..." << endl;
-	char chh = getchar();
-	system("cls");
+	stop();
 	system("mode con cols=40 lines=20  ");
 }
 void taketest()
@@ -810,9 +1070,7 @@ void creatin() {
 					if (remove(savePath) != 0)
 					{
 						cout << "删除文件personin1.dat失败！！！" << endl;
-						cout << "按任意键继续...";
-						char chh = getchar();
-						exit(0);
+						stop();
 					}
 				}
 			}
@@ -852,9 +1110,7 @@ void creatin() {
 					if (remove(savePath) != 0)
 					{
 						cout << "删除文件personin1.dat失败！！！" << endl;
-						cout << "按任意键继续...";
-						char chh = getchar();
-						exit(0);
+						stop();
 					}
 				}
 			}
@@ -973,9 +1229,7 @@ void showin() {
 		}
 		In.close();
 		cout << "暂无外来人员登记！！！" << endl;
-		cout << "按任意键继续..." << endl;
-		char chh = getchar();
-		system("cls");
+		stop();
 	}
 	else {
 		in.read((char*)&p, sizeof(p));
@@ -1016,9 +1270,7 @@ void showin() {
 			c = 0;
 			in.read((char*)&p, sizeof(p));
 			cout << "-------------------" << endl;
-			cout << "按任意键继续..." << endl;
-			char chh = getchar();
-			system("cls");
+			stop();
 		}
 		in.close();
 	}
@@ -1082,23 +1334,17 @@ void showout() {
 			}
 			out.read((char*)&p, sizeof(p));
 			cout << "-------------------" << endl;
-			cout << "按任意键继续..." << endl;
-			char chh = getchar();
-			system("cls");
+			stop();
 		}
 		out.close();
 		if (c == 0) {
 			cout << "暂无外出人员信息记录" << endl;
-			cout << "按任意键继续..." << endl;
-			char ch = getchar();
-			system("cls");
+			stop();
 		}
 	}
 	else {
 		cout << "暂无外出人员登记" << endl;
-		cout << "按任意键继续..." << endl;
-		char chh = getchar();
-		system("cls");
+		stop();
 	}
 }
 void showlocal() {
@@ -1126,23 +1372,17 @@ void showlocal() {
 			c++;
 			loc.read((char*)&p, sizeof(p));
 			cout << "-------------------" << endl;
-			cout << "按任意键继续..." << endl;
-			char ch = getchar();
-			system("cls");
+			stop();
 		}
 		loc.close();
 		if (c == 0) {
 			cout << "暂无本地人员信息记录" << endl;
-			cout << "按任意键继续..." << endl;
-			char ch = getchar();
-			system("cls");
+			stop();
 		}
 	}
 	else {
 		cout << "暂无本地人员信息记录" << endl;
-		cout << "按任意键继续..." << endl;
-		char ch = getchar();
-		system("cls");
+		stop();
 	}
 }
 void showtem(char n[10]) {
@@ -1189,18 +1429,14 @@ void showalltem()
 		i++;
 		T.read((char*)&ex, sizeof(ex));
 		if (i % 3 == 0) {
-			cout << "按任意键继续..." << endl;
-			char ch = getchar();
-			system("cls");
+			stop();
 		}
 	}
 	if (i == 0) {
 		cout << "暂无体温记录" << endl;
 	}
 	T.close();
-	cout << "按任意键继续..." << endl;
-	char ch = getchar();
-	system("cls");
+	stop();
 }
 int loadmanager(int i) {
 	int cec;

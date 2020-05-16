@@ -80,7 +80,7 @@ int Checkcin::Checkmanagerp()
 	return i;
 }
 
-int Checkcin::Checksearchi()
+int Checkcin::Checksearchi(int ii)
 {
 	char buf[1024];
 	int i;
@@ -88,11 +88,21 @@ int Checkcin::Checksearchi()
 		cin >> i;
 		cin.clear();
 		fgets(buf, 1024, stdin);
-		if (i < 1 || i>4) {
-			cout << "请重新正确输入功能序号！！！" << endl;
+		if (ii == 0) {
+			if (i < 1 || i>4) {
+				cout << "请重新正确输入功能序号！！！" << endl;
+			}
+			else {
+				break;
+			}
 		}
 		else {
-			break;
+			if (i < 1 || i>3) {
+				cout << "请重新正确输入功能序号！！！" << endl;
+			}
+			else {
+				break;
+			}
 		}
 	}
 	return i;
@@ -118,8 +128,8 @@ char Checkcin::Checkchsearch()
 	char ch;
 	while (true) {
 		cin >> ch;
-		if (ch != 'i' && ch != 'o') {
-			cout << "请正确输入要查讯人员的类别！！！(i/o)" << endl;
+		if (ch != 'i' && ch != 'o'&&ch!='L') {
+			cout << "请正确输入要查讯人员的类别！！！(i/o/L)" << endl;
 			continue;
 		}
 		break;
